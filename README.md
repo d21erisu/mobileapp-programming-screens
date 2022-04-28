@@ -1,42 +1,44 @@
 
-# Rapport
 
-**Skriv din rapport här!**
 
-_Du kan ta bort all text som finns sedan tidigare_.
+För att skapa en andra aktivitet högerklickade jag på "app" valde new/actvitiy/empty activity, jag döpte aktiviteten till scondactivity
+och fick då en till java klass vid namn second activity och en layoutfil vid namn activity_second.
 
-## Följande grundsyn gäller dugga-svar:
-
-- Ett kortfattat svar är att föredra. Svar som är längre än en sida text (skärmdumpar och programkod exkluderat) är onödigt långt.
-- Svaret skall ha minst en snutt programkod.
-- Svaret skall inkludera en kort övergripande förklarande text som redogör för vad respektive snutt programkod gör eller som svarar på annan teorifråga.
-- Svaret skall ha minst en skärmdump. Skärmdumpar skall illustrera exekvering av relevant programkod. Eventuell text i skärmdumpar måste vara läsbar.
-- I de fall detta efterfrågas, dela upp delar av ditt svar i för- och nackdelar. Dina för- respektive nackdelar skall vara i form av punktlistor med kortare stycken (3-4 meningar).
-
-Programkod ska se ut som exemplet nedan. Koden måste vara korrekt indenterad då den blir lättare att läsa vilket gör det lättare att hitta syntaktiska fel.
-
+Jag skapade en knapp i activity main som enkelt har texten "starta andra aktivitet" gav den en action listener som vid tryck startar metoden second i
+main activity. När metoden kalls skapas ett intent som startar second activity. 
 ```
-function errorCallback(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            // Geolocation API stöds inte, gör något
-            break;
-        case error.POSITION_UNAVAILABLE:
-            // Misslyckat positionsanrop, gör något
-            break;
-        case error.UNKNOWN_ERROR:
-            // Okänt fel, gör något
-            break;
-    }
+public void second(View view) {
+Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+startActivity(intent);
 }
 ```
 
-Bilder läggs i samma mapp som markdown-filen.
+För att skicka data från min första aktivitet till den andra avänds extras. Jag kompletterade metoden second som startar den andra aktiviteten med
+"intent.putExtra()" jag matade då in en string som enkelt säger Winner. 
 
-![](android.png)
+```
+public void second(View view) {
+Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+intent.putExtra("string", "Winner!");
+startActivity(intent);
+}
+```
+ Jag skapade en textview i `activity_second.xml` och hämtade värdet som skickats med extras genom följande rad kod, jag anänvder "string" som nyckel
+ för att komma åt "Winner!" som lagrats i `MainActivity.java`. Sedan sätter jag in denna string i min textview så att datan som skickats från 
+ första aktiviten till andra aktivetien visas. 
+```
+Bundle extras = getIntent().getExtras();
+if (extras != null) {
+String name = extras.getString("string");
 
-Läs gärna:
+            TextView textView = (TextView) findViewById(R.id.textView);
+            textView.setText(name);
 
-- Boulos, M.N.K., Warren, J., Gong, J. & Yue, P. (2010) Web GIS in practice VIII: HTML5 and the canvas element for interactive online mapping. International journal of health geographics 9, 14. Shin, Y. &
-- Wunsche, B.C. (2013) A smartphone-based golf simulation exercise game for supporting arthritis patients. 2013 28th International Conference of Image and Vision Computing New Zealand (IVCNZ), IEEE, pp. 459–464.
-- Wohlin, C., Runeson, P., Höst, M., Ohlsson, M.C., Regnell, B., Wesslén, A. (2012) Experimentation in Software Engineering, Berlin, Heidelberg: Springer Berlin Heidelberg.
+
+
+        }
+```
+
+![](firstactivity_screen.png)
+![](secondactivity_screen.png)
+
